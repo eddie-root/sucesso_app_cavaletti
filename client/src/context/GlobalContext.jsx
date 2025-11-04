@@ -9,7 +9,6 @@ axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 const GlobalContext = createContext(null)
 
 export const GlobalContextProvider = ({ children }) => {
-    const defaultBaseUrl = axios.defaults.baseURL;
     const currency = import.meta.env.VITE_CURRENCY;
     const navigate = useNavigate();
 
@@ -17,7 +16,6 @@ export const GlobalContextProvider = ({ children }) => {
         navigate,
         currency,
         axios,
-        defaultBaseUrl,
     }
 
   return (

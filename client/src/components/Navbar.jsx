@@ -1,35 +1,26 @@
 import { Link, NavLink } from "react-router-dom"
 import { assets } from '../assets/assets.js'
 import { useContext, useState } from "react";
+import GlobalContext from "../context/GlobalContext.jsx";
 import UIContext from "../context/UIContext.jsx";
 import AuthContext from "../context/AuthContext.jsx";
-import GlobalContext from "../context/GlobalContext.jsx";
 import CartContext from "../context/CartContext.jsx";
-import toast from "react-hot-toast";
 
 const Navbar = () => {
    
-    const { user, setUser, axios  } = useContext(AuthContext);
+    const { user, isUser, logout  } = useContext(AuthContext);
     const { setShowUserLogin } = useContext(UIContext);
     const { navigate } = useContext(GlobalContext);
     const { getCartCount } = useContext(CartContext);
     const [ open, setOpen ] = useState(false);
 
-    const logout = async ()=> {        
-        try {
-            const { data } = await axios.get('/api/user/logout')
-            if (data.success) {
-                toast.success(data.message)
-                setUser(null);
-                setTimeout(() => {
-                    navigate('/');
-                }, 100);
+    const handlePedidosClick = async ()=> {        
+        
+            if (user && isUser) {
+                navigate('admin/list-orders');
             }else{
-                toast.error(data.message)
-            }
-        } catch (error) {
-            toast.error(error.message)
-        }
+                navigate('admin')
+            }        
     }
     
     return (
@@ -38,7 +29,6 @@ const Navbar = () => {
 
             <NavLink to='/' onClick={()=> setOpen(false)} className="flex items-center ">
               <img src={assets.logo} className="w-64" alt="logo" />
-            {/* < p className="text-lg text-gray-700">SUCESSO</p> */}
             </NavLink>
 
             {/* Desktop Menu */}
@@ -79,7 +69,7 @@ const Navbar = () => {
                               <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
                                   <p onClick={()=> navigate('contact')} className="cursor-pointer hover:text-black">Meu Profile</p>
                                   <p onClick={()=> navigate('admin')} className="cursor-pointer hover:text-black">Admin</p>
-                                  <p onClick={()=> navigate('my-orders')} className="cursor-pointer hover:text-black">Pedidos</p>
+                                  <p onClick={handlePedidosClick} className="cursor-pointer hover:text-black">Pedidos</p>
                                   <p onClick={logout} className="cursor-pointer hover:text-black">Logout</p>
                               </div>
                           </div>
@@ -90,7 +80,6 @@ const Navbar = () => {
                       </Link>
                   </>)
                 }
-
 
               {/* ------ Sidebar menu for small Screens ------- */}
               <button onClick={() => open ? setOpen(false) : setOpen(true)} aria-label="Menu" className="sm:hidden">

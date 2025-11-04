@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
-import toast from 'react-hot-toast';
+import toast from 'react-hot-toast'
 import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ children }) => {
@@ -9,12 +9,13 @@ const ProtectedRoute = ({ children }) => {
 
     useEffect(()=> {
         if (!isUser) {
-            toast.error('Acesso negado. Você precisa ser um administrador.');
+            toast.error('Acesso negado. Você precisa está logado.')
         }
-    }, [isUser]);
+    }, [isUser])
 
     if (!isUser) {
-        return <Navigate to='/' />;
+        // No toast needed here, redirection is enough.
+        return <Navigate to='/admin' />;
     }
 
     return children;
@@ -24,4 +25,4 @@ ProtectedRoute.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-export default ProtectedRoute
+export default ProtectedRoute;

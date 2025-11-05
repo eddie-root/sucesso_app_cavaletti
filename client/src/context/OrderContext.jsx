@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import AuthContext from './AuthContext'; // Import AuthContext to get axios
 import PropTypes from "prop-types";
 
@@ -22,6 +22,27 @@ export const OrderContextProvider = ({ children }) => {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    const fetchOrders = useCallback(async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await axios.get('/api/order/my-orders');
+            if (response.data.success) {
+                setOrders(response.data.orders);
+            }
+        } catch (err) {
+            const errorMessage = err.response?.data?.message || 'Failed to fetch orders.';
+            setError(errorMessage);
+            console.error('Error fetching orders:', err);
+        } finally {
+            setLoading(false);
+        }
+    }, [axios]);
+
+    useEffect(() => {
+        fetchOrders();
+    }, [fetchOrders]);
 
     // Function to update the order being built
     const updatePreOrder = (data) => {
@@ -55,7 +76,7 @@ export const OrderContextProvider = ({ children }) => {
         try {
             setLoading(true);
             setError(null);
-            await axios.delete(`/api/orders/delete/${orderId}`);
+            await axios.delete(`/api/order/${orderId}`);
             setOrders(prevOrders => prevOrders.filter(order => order.id !== orderId));
         } catch (err) {
             setError('Falha ao remover o pedido.');
@@ -91,7 +112,8 @@ export const OrderContextProvider = ({ children }) => {
         removeOrder,
         saveOrder,
         loading,
-        error
+        error,
+        fetchOrders
     };
 
     return (

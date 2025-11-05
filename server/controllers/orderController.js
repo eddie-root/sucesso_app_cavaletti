@@ -57,9 +57,31 @@ export const getMyOrders = async (req, res) => {
 // Get all orders (for admin)
 export const getAllOrders = async (req, res) => {
     try {
-        const orders = await Order.find({})
-            .populate('client', 'nFantasia city') // Re-added populate for client with correct fields
-            .sort({ createdAt: -1 });
+        // TEMPORARY: Return hardcoded data to test the frontend
+        const orders = [
+            {
+                "_id": "66855b39f706d2b284b7206d",
+                "client": {
+                    "_id": "66855b39f706d2b284b7206c",
+                    "nFantasia": "Cliente Fantasia 1",
+                    "city": "Cidade 1"
+                },
+                "orderNumber": "123",
+                "totalAmount": 1000,
+                "createdAt": "2024-07-03T12:00:00.000Z"
+            },
+            {
+                "_id": "66855b39f706d2b284b7206e",
+                "client": {
+                    "_id": "66855b39f706d2b284b7206f",
+                    "nFantasia": "Cliente Fantasia 2",
+                    "city": "Cidade 2"
+                },
+                "orderNumber": "124",
+                "totalAmount": 2500,
+                "createdAt": "2024-07-02T12:00:00.000Z"
+            }
+        ];
         res.json({ success: true, orders: orders });
     } catch (error) {
         console.error("Error fetching all orders:", error);

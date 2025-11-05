@@ -27,7 +27,7 @@ const ListOrder = () => {
         };
 
         fetchOrders();
-    }, [axios]);
+    }, []);
 
     const handleDelete = async (orderId) => {
         if (window.confirm('Tem certeza que deseja deletar este pedido?')) {
@@ -75,9 +75,6 @@ const ListOrder = () => {
                         <p className="font-medium text-base ml-3 my-auto text-black/70">
                             R$ {formatCurrency(order.totalAmount)}
                         </p>
-                        {/* <div className="flex flex-col text-sm">
-                            <p>Status: <span className="font-medium">{order.status}</span></p>
-                        </div> */}
                         <div className="flex gap-2 justify-self-end">
                             <button onClick={() => navigate(`/admin/order/${order._id}`)} className="px-4 py-2 text-sm font-medium text-blue-600 rounded-md hover:text-white-700 cursor-pointer">
                                 Detalhes

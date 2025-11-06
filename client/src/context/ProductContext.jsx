@@ -1,14 +1,12 @@
-import React, { createContext, useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
-
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
+import GlobalContext from './GlobalContext';
 
 const ProductContext = createContext(null);
 
 export const ProductContextProvider = ({ children }) => {
+    const { axios } = useContext(GlobalContext);
     const [ products, setProducts ] = useState([]);
 
     const fetchProducts = async ()=> {

@@ -12,7 +12,7 @@ const OrderDetail = () => {
     const [order, setOrder] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const { axios, defaultBaseUrl } = useContext(GlobalContext);
+    const { axios } = useContext(GlobalContext);
     const [showConfirmDelete, setShowConfirmDelete] = useState(false);
     const [showPdf, setShowPdf] = useState(false); // Estado para controlar a visualização do PDF
 
@@ -21,7 +21,7 @@ const OrderDetail = () => {
             if (!id) return;
             setLoading(true);
             try {
-                const response = await axios.get(`${defaultBaseUrl}/api/order/${id}`);
+                const response = await axios.get(`/api/order/${id}`);
                 if (response.data.success) {
                     setOrder(response.data.order);
                 } else {
@@ -40,7 +40,7 @@ const OrderDetail = () => {
 
     const handleRemove = async () => {
         try {
-            await axios.delete(`${defaultBaseUrl}/api/order/${id}`);
+            await axios.delete(`/api/order/${id}`);
             navigate('/admin/list-orders');
         } catch (err) {
             setError('Falha ao remover o pedido.');

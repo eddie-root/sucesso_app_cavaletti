@@ -18,7 +18,7 @@ await connectDB()
 await connectCloudinary()
 
 // Allow multiple origins
-const allowedOrigins = ['http://localhost:5173', 'https://sucesso-app-cavaletti-frontend.onrender.com']
+const allowedOrigins = ['https://sucesso-app-cavaletti-frontend.onrender.com', 'http://localhost:5173']
 
 // Middleware configuration
 app.use(express.json());

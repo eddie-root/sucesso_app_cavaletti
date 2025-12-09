@@ -11,10 +11,10 @@ orderRouter.post('/pre-order', authUser, createPreOrder);
 orderRouter.get('/my-orders', authUser, getMyOrders);
 
 // Rota para buscar todos os pedidos (admin)
-orderRouter.get('/all', authUser, getAllOrders);
+orderRouter.get('/list', getAllOrders);
 
 // Rota para buscar um pedido pelo ID (admin)
-orderRouter.get('/:id', authUser, getOrderById);
+orderRouter.get('/:id', getOrderById);
 
 // Rota para deletar um pedido pelo ID (admin)
 orderRouter.delete('/:id', authUser, deleteOrder);

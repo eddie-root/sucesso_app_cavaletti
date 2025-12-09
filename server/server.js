@@ -5,14 +5,14 @@ import connectDB from './configs/db.js';
 import connectCloudinary from './configs/cloudinary.js';
 import 'dotenv/config';
 import userRouter from './routers/userRoute.js';
-import cartRouter from './routers/cartRoute.js';
-import productRouter from './routers/productRoute.js';
-import orderRouter from './routers/orderRoute.js';
 import clientRouter from './routers/clientRoute.js';
+import productRouter from './routers/productRoute.js';
+import cartRouter from './routers/cartRoute.js';
+import orderRouter from './routers/orderRoute.js';
 
 // app config
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 await connectDB()
 await connectCloudinary()
@@ -36,11 +36,10 @@ app.use(cors({
 
 // api endpoints
 app.use('/api/user', userRouter)
-app.use('/api/cart', cartRouter)
-app.use('/api/product', productRouter)
-app.use('/api/order', orderRouter)
 app.use('/api/client', clientRouter)
-
+app.use('/api/product', productRouter)
+app.use('/api/cart', cartRouter)
+app.use('/api/orders', orderRouter)
 
 // app.use('/api/admin', adminRouter)
 app.get('/', (req, res)=> res.send('API is Working'));

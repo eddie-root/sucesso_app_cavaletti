@@ -1,9 +1,7 @@
 import { createContext, useEffect, useState } from "react";
-import axios from 'axios';
 import PropTypes from "prop-types";
+import apiUrl from '../utils/api';
 
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 
 const AuthContext = createContext(null);
 
@@ -15,7 +13,7 @@ export const AuthContextProvider = ({ children })=> {
     // Fetch User from Backend
     const fetchUser = async () => {
         try {
-            const { data } = await axios.get('/api/user/is-auth');
+            const { data } = await apiUrl.get('/api/user/is-auth');
             if (data.success) {
                 setUser(data.user);
                 localStorage.setItem('user', JSON.stringify(data.user));
@@ -45,7 +43,6 @@ export const AuthContextProvider = ({ children })=> {
         setUser, 
         isUser,
         setIsUser,
-        axios,
         logout,
     }
 

@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { toast } from 'react-hot-toast';
 import AppContext from '../../context/AuthContext';
+import { toast } from 'react-hot-toast';
+import api from '../../utils/api';
 
 const AddProduct = () => {
-    const { navigate, axios } = useContext(AppContext);
+    const { navigate } = useContext(AppContext);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         codp: '',
@@ -121,7 +122,7 @@ const AddProduct = () => {
                 formDataToSend.append('images', file);
             });
 
-            const { data } = await axios.post('/api/product/add', formDataToSend, {
+            const { data } = await api.post('/api/product/add', formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

@@ -55,7 +55,7 @@ const App = () => {
             <Route path='list-client' element={<ListClient />} />
             <Route path='edit-client/:id' element={<EditClient />} />
             <Route path='list-orders' element={<ListOrder />} />
-            <Route path='order/:id' element={<OrderDetail />} />
+            <Route path='orders/:id' element={<OrderDetail />} />
           </Route>
         </Routes>
           

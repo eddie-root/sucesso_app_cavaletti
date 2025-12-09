@@ -3,10 +3,10 @@ import { toast } from 'react-hot-toast';
 import AuthContext from '../context/AuthContext';
 import UIContext from '../context/UIContext';
 import GlobalContext from '../context/GlobalContext';
-
+import api from '../utils/api';
 
 const Login = () => {
-    const {  setUser, axios } = useContext(AuthContext);
+    const {  setUser } = useContext(AuthContext);
     const {  setShowUserLogin } = useContext(UIContext);
     const {  navigate } = useContext(GlobalContext);
 
@@ -18,7 +18,7 @@ const Login = () => {
     const onSubmitHandler = async (e) => {
         try {
             e.preventDefault();
-            const { data } = await axios.post(`/api/user/${state}`, { name, email, password })
+            const { data } = await api.post(`/api/user/${state}`, { name, email, password })
 
             // setShowUserLogin(false)
             if (data.success) {

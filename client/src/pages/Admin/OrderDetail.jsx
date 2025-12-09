@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import formatCurrency from '../../utils/money';
-import { calculateItemDiscount } from '../../utils/discount';
+// import { calculateItemDiscount } from '../../utils/discount';
 import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 import OrderPDF from '../../components/OrderPDFViewer';
-import GlobalContext from '../../context/GlobalContext';
+import api from '../../utils/api';
 
 const OrderDetail = () => {
     const { id } = useParams();
@@ -12,7 +12,6 @@ const OrderDetail = () => {
     const [order, setOrder] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const { axios } = useContext(GlobalContext);
     const [showConfirmDelete, setShowConfirmDelete] = useState(false);
     const [showPdf, setShowPdf] = useState(false); // Estado para controlar a visualização do PDF
 
@@ -21,7 +20,7 @@ const OrderDetail = () => {
             if (!id) return;
             setLoading(true);
             try {
-                const response = await axios.get(`/api/order/${id}`);
+                const response = await api.get(`/api/orders/${id}`);
                 if (response.data.success) {
                     setOrder(response.data.order);
                 } else {
@@ -36,11 +35,11 @@ const OrderDetail = () => {
         };
 
         fetchOrder();
-    }, [axios, id]);
+    }, [ api, id]);
 
     const handleRemove = async () => {
         try {
-            await axios.delete(`/api/order/${id}`);
+            await api.delete(`/api/orders/${id}`);
             navigate('/admin/list-orders');
         } catch (err) {
             setError('Falha ao remover o pedido.');
@@ -132,8 +131,8 @@ const OrderDetail = () => {
                         <h3 className="text-sm font-medium mb-2">Itens do Pedido</h3>
                         <div className="space-y-3">
                             {order.products.map((item, itemIndex) => {
-                                const finalPrice = calculateItemDiscount(item.price, item.discount1, item.discount2, item.discount3, item.discount4);
-                                const discounts = [item.discount1, item.discount2, item.discount3, item.discount4].filter(d => d > 0).join('% + ');
+                               // const finalPrice = calculateItemDiscount(item.price, item.discount1, item.discount2, item.discount3, item.discount4);
+                               // const discounts = [item.discount1, item.discount2, item.discount3, item.discount4].filter(d => d > 0).join('% + ');
 
                                 return (
                                     <div key={itemIndex} className="flex items-start justify-between bg-gray-50 p-3 rounded">

@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
 import toast from 'react-hot-toast';
+import GlobalContext from '../../context/GlobalContext';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { assets } from '../../assets/assets';
-import GlobalContext from '../../context/GlobalContext';
+import api from '../../utils/api';
 
 const AdminLayout = () => {
 
-    const { navigate, axios } = useContext(GlobalContext);
+    const { navigate } = useContext(GlobalContext);
 
     const sidebarLinks = [
         { name: 'Add Product', path: '/admin', icon: assets.add_icon },
@@ -18,7 +19,7 @@ const AdminLayout = () => {
 
     const logout = async ()=> {
         try {
-            const { data } = await axios.get('/api/admin/logout')
+            const { data } = await api.get('/api/admin/logout')
             if (data.success) {
                 toast.success(data.message)
                 setTimeout(() => {

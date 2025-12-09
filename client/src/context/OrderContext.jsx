@@ -1,13 +1,11 @@
-import React, { createContext, useState, useContext } from 'react';
-import AuthContext from './AuthContext'; // Import AuthContext to get axios
+import React, { createContext, useState } from 'react';
 import PropTypes from "prop-types";
-
+import api from '../utils/api';
 
 const OrderContext = createContext();
 
-
 export const OrderContextProvider = ({ children }) => {
-    const { axios } = useContext(AuthContext); // Get axios from AuthContext
+    
     // State for the list of all orders
     const [orders, setOrders] = useState([]);
     
@@ -34,7 +32,7 @@ export const OrderContextProvider = ({ children }) => {
             setLoading(true);
             setError(null);
             // No need for { withCredentials: true } as it's default in AuthContext's axios
-            const response = await axios.post('/api/order/pre-order', orderData);
+            const response = await api.post('/api/orders/pre-order', orderData);
             if (response.data.success) {
                 // Add the new order to the list of orders
                 setOrders(prevOrders => [...prevOrders, response.data.order]);
@@ -55,7 +53,7 @@ export const OrderContextProvider = ({ children }) => {
         try {
             setLoading(true);
             setError(null);
-            await axios.delete(`/api/order/${orderId}`);
+            await api.delete(`/api/orders/${orderId}`);
             setOrders(prevOrders => prevOrders.filter(order => order.id !== orderId));
         } catch (err) {
             setError('Falha ao remover o pedido.');
@@ -69,7 +67,7 @@ export const OrderContextProvider = ({ children }) => {
     const saveOrder = async (order) => {
         try {
             setLoading(true);
-            const response = await axios.post('/api/order/pre-order', order);
+            const response = await api.post('/api/orders/pre-order', order);
             if (response.data.success) {
                 // Add the new order to the list
                 setOrders(prevOrders => [...prevOrders, response.data.order]);

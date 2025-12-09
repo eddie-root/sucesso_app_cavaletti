@@ -1,10 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
+import GlobalContext from '../../context/GlobalContext';
 import { toast } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
-import GlobalContext from '../../context/GlobalContext';
+import api from '../../utils/api';
 
 const EditProduct = () => {
-    const { navigate, axios } = useContext(GlobalContext);
+    const { navigate } = useContext(GlobalContext);
     const { id } = useParams();
     const [loading, setLoading] = useState(false);
     const [product, setProduct] = useState(null);
@@ -34,7 +35,7 @@ const EditProduct = () => {
         const fetchProduct = async () => {
             setLoading(true);
             try {
-                const { data } = await axios.get(`/api/product/${id}`);
+                const { data } = await api.get(`/api/product/${id}`);
                 if (data.success) {
                     const productData = data.product;
                     const formattedPriceGroups = productData.priceGroups.map(group => ({
@@ -69,7 +70,7 @@ const EditProduct = () => {
         };
 
         fetchProduct();
-    }, [id, axios, navigate]);
+    }, [id, api, navigate]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -100,11 +101,11 @@ const EditProduct = () => {
         setFormData((prev) => ({ ...prev, priceGroups: newPriceGroups }));
     };
 
-    const handlePriceGroupChange = (index, value) => {
-        const newPriceGroups = [...formData.priceGroups];
-        newPriceGroups[index].name = value;
-        setFormData((prev) => ({ ...prev, priceGroups: newPriceGroups }));
-    };
+    // const handlePriceGroupChange = (index, value) => {
+    //     const newPriceGroups = [...formData.priceGroups];
+    //     newPriceGroups[index].name = value;
+    //     setFormData((prev) => ({ ...prev, priceGroups: newPriceGroups }));
+    // };
 
     const handlePriceChange = (groupIndex, coverage, value) => {
         const newPriceGroups = [...formData.priceGroups];
@@ -156,7 +157,7 @@ const EditProduct = () => {
                 formDataToSend.append('images', file);
             });
 
-            const { data } = await axios.put(`/api/product/update/${id}`, formDataToSend, {
+            const { data } = await api.put(`/api/product/update/${id}`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

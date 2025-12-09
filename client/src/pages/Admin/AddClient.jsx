@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { toast } from 'react-hot-toast';
 import AppContext from '../../context/AuthContext';
+import { toast } from 'react-hot-toast';
+import api from '../../utils/api';
 
 const SellerAddClient = () => {
-    const { navigate, axios } = useContext(AppContext);
+    const { navigate } = useContext(AppContext);
     const [formData, setFormData] = useState({
         rSocial: '',
         nFantasia: '',
@@ -88,7 +89,7 @@ const SellerAddClient = () => {
                 cep: formData.cep.replace(/\D/g, '')
             };
 
-            const { data } = await axios.post('/api/client/create', formattedData);
+            const { data } = await api.post('/api/client/create', formattedData);
 
             if (data.success) {
                 toast.success('Cliente adicionado com sucesso!');

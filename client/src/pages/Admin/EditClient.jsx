@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
+import GlobalContext from '../../context/GlobalContext';
 import { toast } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
-import GlobalContext from '../../context/GlobalContext';
+import api from '../../utils/api';
 
 const EditClient = () => {
-    const { navigate, axios } = useContext(GlobalContext);
+    const { navigate } = useContext(GlobalContext);
     const { id } = useParams();
     const [formData, setFormData] = useState({
         rSocial: '',
@@ -31,7 +32,7 @@ const EditClient = () => {
     useEffect(() => {
         const fetchClient = async () => {
             try {
-                const { data } = await axios.get(`/api/client/getClient/${id}`);
+                const { data } = await api.get(`/api/client/getClient/${id}`);
                 if (data.success) {
                     setFormData(data.client);
                 } else {
@@ -43,7 +44,7 @@ const EditClient = () => {
             }
         };
         fetchClient();
-    }, [id, axios]);
+    }, [id, api]);
 
 
     const handleChange = (e) => {
@@ -107,7 +108,7 @@ const EditClient = () => {
                 cep: formData.cep.replace(/\D/g, '')
             };
 
-            const { data } = await axios.put(`/api/client/updateClient/${id}`, formattedData);
+            const { data } = await api.put(`/api/client/updateClient/${id}`, formattedData);
 
             if (data.success) {
                 toast.success('Cliente atualizado com sucesso!');

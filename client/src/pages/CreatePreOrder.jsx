@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import axios from 'axios';
+import api from '../utils/api';
 import CartContext from '../context/CartContext';
 import AuthContext from '../context/AuthContext';
 import OrderContext from '../context/OrderContext';
@@ -38,7 +38,7 @@ const CreatePreOrder = () => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const response = await axios.get('/api/client/getAll');
+        const response = await api.get('/api/client/getAll');
         if (response.data.success) {
           setClients(response.data.clients);
         }

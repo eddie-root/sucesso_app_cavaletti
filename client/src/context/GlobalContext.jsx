@@ -1,10 +1,8 @@
 import React, { createContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api';
 import PropTypes from 'prop-types';
 
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 
 const GlobalContext = createContext(null)
 
@@ -15,7 +13,7 @@ export const GlobalContextProvider = ({ children }) => {
     const value = {
         navigate,
         currency,
-        axios,
+        api,
     }
 
   return (

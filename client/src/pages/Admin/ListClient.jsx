@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
 import GlobalContext from '../../context/GlobalContext';
-
+import { toast } from 'react-hot-toast';
+import api from '../../utils/api';
 
 const ListClient = () => {
-  const { axios, navigate } = useContext(GlobalContext);
+  const { navigate } = useContext(GlobalContext);
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -14,7 +14,7 @@ const ListClient = () => {
 
   const fetchClients = async () => {
     try {
-      const response = await axios.get('/api/client/getAll');
+      const response = await api.get('/api/client/getAll');
       if (response.data.success) {
         setClients(response.data.clients);
       }
@@ -29,7 +29,7 @@ const ListClient = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Tem certeza que deseja excluir este cliente?')) {
       try {
-        const response = await axios.delete(`/api/client/deleteClient/${id}`);
+        const response = await api.delete(`/api/client/deleteClient/${id}`);
         if (response.data.success) {
           toast.success('Cliente excluído com sucesso');
           fetchClients();

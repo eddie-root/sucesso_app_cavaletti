@@ -1,17 +1,17 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
-import GlobalContext from './GlobalContext';
+import api from '../utils/api';
 
 const ProductContext = createContext(null);
 
 export const ProductContextProvider = ({ children }) => {
-    const { axios } = useContext(GlobalContext);
+
     const [ products, setProducts ] = useState([]);
 
     const fetchProducts = async ()=> {
         try {
-            const { data } = await axios.get('/api/product/list');
+            const { data } = await api.get('/api/product/list');
             if (data.success) {
                 setProducts(data.products);
             } else {

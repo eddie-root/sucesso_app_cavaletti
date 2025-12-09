@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
 import GlobalContext from '../../context/GlobalContext';
+import { toast } from 'react-hot-toast';
+import api from '../../utils/api';
 
 const ListProduct = () => {
-  const { navigate, axios } = useContext(GlobalContext);
+  const { navigate } = useContext(GlobalContext);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -13,7 +14,7 @@ const ListProduct = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('/api/product/list');
+      const response = await api.get('/api/product/list');
       if (response.data.success) {
         setProducts(response.data.products);
       }
@@ -28,7 +29,7 @@ const ListProduct = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Tem certeza que deseja excluir este produto?')) {
       try {
-        const response = await axios.delete(`/api/product/delete/${id}`);
+        const response = await api.delete(`/api/product/delete/${id}`);
         if (response.data.success) {
           toast.success('Produto excluído com sucesso');
           fetchProducts();

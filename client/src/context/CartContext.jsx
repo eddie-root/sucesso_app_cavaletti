@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import toast from "react-hot-toast";
 import ProductContext from "./ProductContext";
 import GlobalContext from "./GlobalContext";
+import api from "../utils/api";
 import { calculateItemDiscount } from "../utils/discount";
 
 const CartContext = createContext(null);
@@ -10,7 +11,7 @@ const CartContext = createContext(null);
 export const CartContextProvider = ({ children }) => {
 
     const { products } = useContext(ProductContext);
-    const { currency, navigate, axios } = useContext(GlobalContext);
+    const { currency, navigate } = useContext(GlobalContext);
 
     const [cartItems, setCartItems] = useState([]);
     const [itemDiscounts, setItemDiscounts] = useState({});
@@ -106,7 +107,7 @@ export const CartContextProvider = ({ children }) => {
 
     const createPreOrder = async (orderData) => {
         try {
-            const { data } = await axios.post("/api/orders/pre-order", orderData);
+            const { data } = await api.post("/api/orders/pre-order", orderData);
             if (data.success) {
                 toast.success("Pré-pedido criado com sucesso!");
                 clearCart();

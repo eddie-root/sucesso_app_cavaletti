@@ -1,19 +1,20 @@
 
 import React, { useState, useEffect, useContext } from 'react';
+import GlobalContext from '../../context/GlobalContext';
 import boxIcon from '../../assets/order_icon.svg'; // Placeholder icon
 import formatCurrency from '../../utils/money';
-import GlobalContext from '../../context/GlobalContext';
+import api from '../../utils/api';
 
 const ListOrder = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const { axios, navigate } = useContext(GlobalContext)
+    const { navigate } = useContext(GlobalContext)
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get(`/api/order/all`);
+                const response = await api.get(`/api/orders/list`);
                 if (response.data.success) {
                     setOrders(response.data.orders);
                 } else {
@@ -33,7 +34,7 @@ const ListOrder = () => {
     const handleDelete = async (orderId) => {
         if (window.confirm('Tem certeza que deseja deletar este pedido?')) {
             try {
-                const response = await axios.delete(`/api/order/${orderId}`);
+                const response = await api.delete(`/api/orders/${orderId}`);
                 if (response.data.success) {
                     setOrders(orders.filter(order => order._id !== orderId));
                 } else {
